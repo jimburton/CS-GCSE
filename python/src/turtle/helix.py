@@ -3,12 +3,17 @@
 # using Turtle Programming
 
 import turtle
-loadWindow = turtle.Screen()
-turtle.speed(2)
+#loadWindow = turtle.Screen()
+
+my_turtle = turtle.Turtle()
+my_turtle.speed(0.5)
+
+colours = ['blue', 'gold', 'maroon', 'red', 'pink', 'orange']
 
 for i in range(100):
-    turtle.circle(5*i)
-    turtle.circle(-5*i)
-    turtle.left(i)
+    #my_turtle.color(colours[i % 5])
+    my_turtle.circle(5*i)
+    my_turtle.circle(-5*i)
+    my_turtle.left(i)
 
-turtle.exitonclick()
+turtle.done()
