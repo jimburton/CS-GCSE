@@ -9,10 +9,16 @@ def draw_triangle(the_turtle, side_length):
         the_turtle.forward(side_length)
         the_turtle.right(120)
 
-my_turtle.pensize(3)
-my_turtle.color('blue')
+my_turtle.pensize(6)
+my_turtle.color('purple')
 my_turtle.left(60)
 draw_triangle(my_turtle, 100)
+
+for i in range(10):
+    my_turtle.left(36)
+    my_turtle.pensize(3)
+    my_turtle.color('red')
+    draw_triangle(my_turtle, 100)
 
 turtle.done()
         
