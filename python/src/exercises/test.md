@@ -1,4 +1,4 @@
-Python Proficiency Exam: Intermediate Concepts
+# Python Proficiency Exam: Intermediate Concepts
 
 For Multiple Choice & Syntax (Part A) select one answer for each question.
 
@@ -6,7 +6,7 @@ For Code Interpretation (Part B), write the exact output. If an error occurs, st
 
 For Code Writing (Part C), write clear, concise, and functional Python code. Assume all necessary modules (e.g. `numpy`, `pandas`, `logging`) are installed and available for import.
 
-# Part A: Multiple Choice & Syntax (10 Points)
+## Part A: Multiple Choice & Syntax (10 Points)
 
 Select the best answer for each question. (1 point each)
 
@@ -131,7 +131,7 @@ Select the best answer for each question. (1 point each)
     C) `timedelta`
     D) `timeperiod`
 
-# Part B: Code Interpretation & Debugging (20 Points)
+## Part B: Code Interpretation & Debugging (20 Points)
 
 Analyze the following code fragments and provide the exact output. (5 points each)
 
