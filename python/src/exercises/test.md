@@ -1,14 +1,6 @@
 # Python Proficiency Exam: Intermediate Concepts
 
-For Multiple Choice & Syntax (Part A) select one answer for each question.
-
-For Code Interpretation (Part B), write the exact output. If an error occurs, state the error type and the line number where it would occur.
-
-For Code Writing (Part C), write clear, concise, and functional Python code. Assume all necessary modules (e.g. `numpy`, `pandas`, `logging`) are installed and available for import.
-
-## Part A: Multiple Choice & Syntax (10 Points)
-
-Select the best answer for each question. (1 point each)
+## Part A: Multiple Choice & Syntax 
 
 1. **Loops & Control Flow**  
    Which keyword is used to skip the rest of the current loop iteration and move to the next iteration?  
@@ -131,9 +123,9 @@ Select the best answer for each question. (1 point each)
     C) `timedelta`  
     D) `timeperiod`  
 
-## Part B: Code Interpretation & Debugging (20 Points)
+## Part B: Code Interpretation & Debugging 
 
-Analyze the following code fragments and provide the exact output. (5 points each)
+Analyze the following code fragments and provide the exact output.  
 
 1. **Class Interaction and Attributes**  
 
@@ -158,8 +150,6 @@ Analyze the following code fragments and provide the exact output. (5 points eac
     print(acct._balance)
     ```
 
-Output: [Write your output here]
-
 2. **Exception Flow and finally**  
 
     ```python
@@ -182,8 +172,6 @@ Output: [Write your output here]
     process_data(-1)
     ```
 
-    Output:[Write your output here]
-
 3. **NumPy Array Manipulation**  
 
     ```python
@@ -200,8 +188,6 @@ Output: [Write your output here]
     print(data.shape)
     print(data)
     ```
-
-    Output:[Write your output here]
 
 4. **Pandas Data Selection**  
 
@@ -221,8 +207,6 @@ Output: [Write your output here]
     print(len(filtered_cities))
     ```
 
-    Output:[Write your output here]
-
 5. **Standard Modules: random and os**  
 
     ```python
@@ -241,27 +225,19 @@ Output: [Write your output here]
     print(get_config_path('server.conf'))
     ```
 
-    Output:[Write your output here]
+## Part C: Code Writing & Application  
 
-## Part C: Code Writing & Application (10 Points)
-
-Write the Python code fragment necessary to achieve the following tasks. (Marks indicated for each question.)
+Write the Python code fragment necessary to achieve the following tasks. Assume all necessary modules (e.g. `numpy`, `pandas`, `logging`) are installed and available for import.
 
 1. **Custom Exception**   
    Write a custom exception class named `InsufficientStockError`. 
    Then, write a function `check_stock(inventory, quantity)` that takes a stock level (integer) and a desired quantity (integer) and raises `InsufficientStockError` if quantity is greater than inventory.
-   
-   Code: [Write your code for Task 1 here]
 
 2. **Conditional Loop with continue**  
    Write a `for` loop that iterates through the numbers 1 to 10 (inclusive). If a number is even, use continue to skip printing that number. Only odd numbers should be printed to the console.
-   
-   Code: [Write your code for Task 2 here]
 
 3. **Pandas Data Loading and Inspection**  
    Write the Python code to load a file named `sales_data.csv` into a pandas `DataFrame` and then print the first 5 rows of the loaded `DataFrame`.
-   
-   Code: [Write your code for Task 3 here]
 
 4.  **Class Inheritance**
     Create a parent class `Asset` with an `__init__` method that accepts `asset_id` (string) and `value` (float).
