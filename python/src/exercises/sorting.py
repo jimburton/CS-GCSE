@@ -41,7 +41,7 @@ def bubble_sort(the_list):
     Returns a sorted version of the input list.
     """
     max = len(the_list) # not subtracting 1 here because of the way range works.
-    for i in range(len(the_list)):
+    for i in range(max):
         for j in range(max-1):
             if the_list[j] > the_list[j+1]:
                 # we can swap in one step

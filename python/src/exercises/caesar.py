@@ -22,10 +22,7 @@ def enc_caesar(key: int, text: str) -> str:
     Returns:
         str: The encoded message.
     """
-    enc = ""
-    for c in text:
-        enc += chr(ord(c)+key)
-    return enc
+    pass
 
 def rot13(text: str) -> str:
     """Rot13 is a Caesar cipher with key=13. This means that calling Rot13

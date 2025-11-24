@@ -3,9 +3,9 @@
 def empty_board():
     """Create a new, empty board."""
     board = []
-    for r in range(3):
+    for _ in range(3): 
         row = []
-        for col in range(3):
+        for _ in range(3):
             row.append(" ")
         board.append(row)
     return board
