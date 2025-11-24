@@ -10,12 +10,12 @@ For Code Writing (Part C), write clear, concise, and functional Python code. Ass
 
 Select the best answer for each question. (1 point each)
 
-1. Loops & Control Flow
+1. **Loops & Control Flow**
    Which keyword is used to skip the rest of the current loop iteration and move to the next iteration?
-   A) exit
-   B) skip
-   C) break
-   D) continue
+   A) exit  
+   B) skip  
+   C) break  
+   D) continue  
 
 2. Exception Handling
    What block of code always executes, regardless of whether an exception was raised or not?
