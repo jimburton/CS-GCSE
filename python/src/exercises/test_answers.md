@@ -49,6 +49,7 @@
         """Raised when the desired quantity exceeds available inventory."""
         def __init__(self, msg):         
             super().__init__(msg) 
+            # Exception.__init__(msg) is acceptable too.
 
     def check_stock(inventory, quantity): # (1 pt) Correct function signature
         if quantity > inventory: # (1 pt) Correct condition check
@@ -81,6 +82,7 @@
     class Electronics(Asset): # (1 pt) Correct inheritance syntax
         def __init__(self, asset_id, value, warranty_months): # (1 pt) Correct child    __init__ signature
             super().__init__(asset_id, value) # (1 pt) Correct use of super()
+            # Asset.__init__(asset_id, value) is acceptable too.
             self.warranty_months = warranty_months # (1 pt) New attribute
     ```
 5.  ```python
