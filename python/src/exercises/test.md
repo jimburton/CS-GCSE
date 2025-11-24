@@ -12,24 +12,24 @@ Select the best answer for each question. (1 point each)
 
 1. **Loops & Control Flow**  
    Which keyword is used to skip the rest of the current loop iteration and move to the next iteration?  
-   A) exit  
-   B) skip  
-   C) break  
-   D) continue  
+   A) `exit`    
+   B) `skip`  
+   C) `break`  
+   D) `continue`  
 
 2. **Exception Handling**  
    What block of code always executes, regardless of whether an exception was raised or not?  
-   A) try  
-   B) except  
-   C) finally  
-   D) else  
+   A) `try`  
+   B) `except`  
+   C) `finally`  
+   D) `else`  
 
 3. **Class Initialization**  
    Which special method in a Python class is responsible for setting up the initial state (attributes) of an object when it is created?  
-   A) __new__  
-   B) __self__  
-   C) __init__  
-   D) __create__  
+   A) `__new__`  
+   B) `__self__`  
+   C) `__init__`  
+   D) `__create__`  
 
 4. **Module Import**  
    If you have a module named `utils.py` containing a function `calculate_sum()`, what is the most concise way to import and use the function without needing to prefix it with `utils.`?  
