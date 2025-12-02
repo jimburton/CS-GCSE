@@ -1,4 +1,4 @@
-from bar_chart import draw_bar_chart
+from python.src.exercises.charts.bar_chart import draw_bar_chart
 
 def load_data(file_name):
     """ Load the data into a dict. """
