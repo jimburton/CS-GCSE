@@ -1,6 +1,6 @@
-# Answer Key and Scoring Guide
+# Answer Key
 
-## Part A: Multiple Choice & Syntax (10 Points)
+## Part A: Multiple Choice & Syntax
 
 | Q  |  Topic                  | Correct Answer                     |
 |----|-------------------------|------------------------------------|
@@ -20,7 +20,7 @@
 |14  | Math module             | B) `math.exp(x)`                   |
 |15  | Datetime module         | C) `timedelta`                     |
 
-## Part B: Code Interpretation & Debugging (20 Points)
+## Part B: Code Interpretation & Debugging 
 
 | Q |  Output                                     | 
 |---|---------------------------------------------|
