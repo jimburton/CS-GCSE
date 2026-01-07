@@ -40,13 +40,31 @@ class PriorityQueue:
 def frequency_table(text: str) -> list:
     """Construct the frequency table for the input text.
 
-    Each element of the output list is a tuple (n,c), where c
-    is a character from text and n is its frequency.
+    Count the occurences of each character in the input text.
+
+    Make a new, empty dictionary.
+
+    For each character in the input text, check whether it is already
+    a key in the dictionary. If it is not, make it into a key with the
+    value 0. If it is already in the dictionary, add 1 to its value.
+    
+    Then create an empty list to hold the result. Loop through the keys and
+    values of the dictionary and add each pair to the list as a tuple, (n,c),
+    where n is the count and c is the character.
     """
     pass
 
 def build_queue(ftable) -> 'PriorityQueue':
-    """Build the priority queue containing Huffman tree nodes."""
+    """Build the priority queue containing Huffman tree nodes.
+
+    First, make a new PriorityQueue.
+
+    Then, for each item in the frequency table, create a new HuffmanTree
+    object with the character and frequency from the frequency table and
+    enqueue it.
+
+    Finally, return the queue.
+    """
     pass
 
 def merge(t1: 'HuffmanTree', t2: 'HuffmanTree') -> 'HuffmanTree':
