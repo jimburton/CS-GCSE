@@ -23,6 +23,10 @@ class Tree:
             else:
                 self.right.insert(label)
 
+    def search(self, target) -> bool:
+        """Search this tree for a target value."""
+        pass
+    
     def count_nodes(self):
         """Count the number of nodes in this tree."""
         pass
