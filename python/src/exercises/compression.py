@@ -131,8 +131,8 @@ def bwt(the_input: str) -> str:
         result += row[-1]
     return result
 
-def bwt_reverse(the_input: str) -> str:
-    """Reverse the BWT."""
+def bwt_invert(the_input: str) -> str:
+    """Invert a BWT."""
     # create empty table
     table = []
     for _ in range(len(the_input)):
@@ -151,12 +151,12 @@ def bwt_reverse(the_input: str) -> str:
 def compress(the_input: str) -> list:
     """Compress some input by applying a BWT then RLE."""
     bwt_enc = bwt(the_input)
-    return rle_iter(bwt_enc)
+    return rle(bwt_enc)
     
 def decompress(the_input: list) -> str:
-    """Decompress some input by reversing RLE then reversing BWT."""
+    """Decompress some input by inverting RLE then inverting BWT."""
     exp = rle_expand(the_input)
-    return bwt_reverse(exp)
+    return bwt_invert(exp)
 
 test_str = "THE.MAN.AND.THE.DOG.WAITED.AT.THE.STATION.FOR.THE.TRAIN.TO.THE.CITY"
 

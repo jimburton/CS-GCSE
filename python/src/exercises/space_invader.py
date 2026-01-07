@@ -1,5 +1,5 @@
 def space_invader() -> str:
-    """String representing a space invader."""
+    """String representing a space invader.magic mou"""
     width = 28
     white = '_'
     black = 'X'
