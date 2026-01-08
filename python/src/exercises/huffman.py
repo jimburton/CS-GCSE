@@ -1,4 +1,7 @@
-"""Huffman coding."""
+"""Huffman coding.
+
+Some functions left as exercises.
+"""
 
 class HuffmanTree:
     """Class for nodes in a Huffman tree."""
@@ -42,48 +45,92 @@ def frequency_table(text: str) -> list:
 
     Count the occurences of each character in the input text.
 
-    Make a new, empty dictionary.
-
-    For each character in the input text, check whether it is already
+    1. Make a new, empty dictionary.
+    2. For each character in the input text, check whether it is already
     a key in the dictionary. If it is not, make it into a key with the
     value 0. If it is already in the dictionary, add 1 to its value.
-    
-    Then create an empty list to hold the result. Loop through the keys and
-    values of the dictionary and add each pair to the list as a tuple, (n,c),
-    where n is the count and c is the character.
+    3. Create an empty list to hold the result.
+    4. Loop through the keys and values of the dictionary and add each pair
+    to the list as a tuple, (n,c), where n is the count and c is the character.
     """
     pass
 
 def build_queue(ftable) -> 'PriorityQueue':
     """Build the priority queue containing Huffman tree nodes.
 
-    First, make a new PriorityQueue.
-
-    Then, for each item in the frequency table, create a new HuffmanTree
+    TODO
+    
+    1. Make a new PriorityQueue.
+    2. for each item in the frequency table, create a new HuffmanTree
     object with the character and frequency from the frequency table and
     enqueue it.
-
-    Finally, return the queue.
+    3. Finally, return the queue.
     """
     pass
 
 def merge(t1: 'HuffmanTree', t2: 'HuffmanTree') -> 'HuffmanTree':
     """Merge two Huffman trees.
 
-    Make a new node whose frequency is the sum of the frequencies of the
-    two nodes. Set the left and right children of the new node to be the
+    TODO
+    
+    1. Make a new node whose frequency is the sum of the frequencies of the
+    two nodes.
+    2. Set the left and right children of the new node to be the
     two nodes, where the left-hand child has the lower frequency.
+    3. Return the new node.
     """
     pass
 
 def build_tree(pqueue: 'PriorityQueue') -> 'HuffmanTree':
     """Build the Huffman tree from the queue of nodes.
 
-       While there is more than one node in the queue:
-           . Take the first two nodes from the queue,
-           . merge them,
-           . put the resulting node back into the queue.
+    TODO
+    
+    1. While there is more than one node in the queue:
+        a) Take the first two nodes from the queue,
+        b) merge the nodes into a new node,
+        c) put the new node back into the queue.
+    2. Return the last remaining node
+    """
+    pass
 
-       Finally, return the last remaining node
+def tree_to_dict(tree: 'HuffmanTree') -> dict:
+    """Transform a Huffman tree into a dict.
+
+    In the dict the keys are characters and the values are their Huffman codes.
+    """
+    return collect_codes(tree, code=[])
+
+def collect_codes(tree: 'HuffmanTree', code) -> dict:
+    """Helper method for tree_to_dict.
+
+    Traverses the tree to collect all codes.
+    """
+    if not tree.char is None:    # We are at a leaf.
+        return {tree.char: path}
+    else:                        # We are in a branch.
+        # Copy the path before modifying it.
+        left_path = path.copy()
+        left_path.append(b0)
+        right_path = path.copy()
+        right_path.append(b1)
+        left = {} if tree.left is None else collect_codes(tree.left, left_path)
+        right = {} if tree.right is None else collect_codes(tree.right, right_path)
+        return {**left, **right}
+
+def encode(input: str) -> list:
+    """Create the Huffman coding for an input string.
+    
+    The dict is a map from characters to codes, where each code is a list
+    of zeros and ones.
+    
+    TODO
+
+    1. First, create the frequency table for input.
+    2. Build the priority queue containing leaf nodes.
+    3. Build the complete Huffman tree.
+    4. Collect the codes from the tree.
+    5. Map the codes onto the input and return the encoded version.
+    
     """
     pass
