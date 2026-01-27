@@ -18,7 +18,7 @@ ENDSUBROUTINE
 
 """
 
-def binary_search(target, the_list):
+def binary_search(target: int, the_list: list) -> int:
     """ Implementation of binary search. Precondition: the_list is sorted. """
     start = 0
     end = len(the_list) - 1
