@@ -30,6 +30,8 @@ while True:
 
     # check for collisions
 
+    # draw the background and each sprite
+
     # end the loop
     pygame.display.update()
     clock.tick(FPS)
