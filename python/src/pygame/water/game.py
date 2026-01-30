@@ -8,10 +8,10 @@ pygame.init()
 WIDTH, HEIGHT = 400, 600
 FPS = 60
 GRAVITY = 0.8
-JUMP_STRENGTH = -16
+JUMP_STRENGTH = -18  # Slightly stronger jump for better gameplay
 PLAYER_SPEED = 7
-WATER_SPEED_START = 1.0
-PLATFORM_GAP = 100
+WATER_SPEED_START = 1.2
+PLATFORM_GAP = 110
 
 # Colors
 WHITE = (255, 255, 255)
@@ -38,26 +38,27 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_RIGHT]:
             dx = PLAYER_SPEED
 
-        # Gravity
+        # Apply Gravity
         self.vel_y += GRAVITY
         dy = self.vel_y
 
-        # Horizontal boundaries
-        if self.rect.left + dx < 0:
-            dx = -self.rect.left
-        if self.rect.right + dx > WIDTH:
-            dx = WIDTH - self.rect.right
-
-        # Collision with platforms (only while falling)
-        for plat in platforms:
-            if plat.rect.colliderect(self.rect.x + dx, self.rect.y + dy, self.rect.width, self.rect.height):
-                if self.vel_y > 0: # Falling
-                    if self.rect.bottom <= plat.rect.top:
-                        self.rect.bottom = plat.rect.top
-                        dy = 0
-                        self.vel_y = JUMP_STRENGTH # Auto-jump on platforms
-
+        # Horizontal movement and boundaries
         self.rect.x += dx
+        if self.rect.left < 0: self.rect.left = 0
+        if self.rect.right > WIDTH: self.rect.right = WIDTH
+
+        # Vertical movement and platform collision
+        # We check collision BEFORE applying vertical movement to catch the landing
+        if self.vel_y > 0:  # Only check if falling
+            for plat in platforms:
+                if plat.rect.colliderect(self.rect.x, self.rect.y + dy, self.rect.width, self.rect.height):
+                    # Check if the player was above the platform before the move
+                    if self.rect.bottom <= plat.rect.top + 10: # 10px buffer for high speeds
+                        self.rect.bottom = plat.rect.top
+                        self.vel_y = JUMP_STRENGTH
+                        dy = 0
+                        break
+        
         self.rect.y += dy
 
 class Platform(pygame.sprite.Sprite):
@@ -73,7 +74,6 @@ def main():
     clock = pygame.time.Clock()
     font = pygame.font.SysFont("Arial", 24)
 
-    # Sprite Groups
     all_sprites = pygame.sprite.Group()
     platforms = pygame.sprite.Group()
 
@@ -81,21 +81,21 @@ def main():
     player = Player()
     all_sprites.add(player)
 
-    # Initial Platforms
-    start_plat = Platform(0, HEIGHT - 20, WIDTH)
-    all_sprites.add(start_plat)
-    platforms.add(start_plat)
+    # Base Platform
+    base_plat = Platform(0, HEIGHT - 20, WIDTH)
+    all_sprites.add(base_plat)
+    platforms.add(base_plat)
 
-    for i in range(1, 8):
+    # Generate initial set of platforms
+    for i in range(1, 10):
         p = Platform(random.randint(0, WIDTH - 70), HEIGHT - (i * PLATFORM_GAP), 70)
         all_sprites.add(p)
         platforms.add(p)
 
-    water_y = HEIGHT + 100
+    water_y = HEIGHT + 50
     water_speed = WATER_SPEED_START
-    scroll = 0
-    running = True
     game_over = False
+    running = True
 
     while running:
         for event in pygame.event.get():
@@ -108,52 +108,53 @@ def main():
         if not game_over:
             player.update(platforms)
             
-            # Water rises
+            # Water rises and speed increases
             water_y -= water_speed
-            # Speed up water slightly as player scores
-            water_speed = WATER_SPEED_START + (player.score / 5000)
+            water_speed = WATER_SPEED_START + (player.score / 10000)
 
-            # Camera Scroll logic
-            if player.rect.top <= HEIGHT // 3:
-                diff = HEIGHT // 3 - player.rect.top
-                player.rect.y += diff
-                water_y += diff
+            # Camera Scroll (Keep player in center)
+            if player.rect.top <= HEIGHT // 2:
+                scroll_amt = HEIGHT // 2 - player.rect.top
+                player.rect.y += scroll_amt
+                water_y += scroll_amt
+                player.score += scroll_amt
                 for plat in platforms:
-                    plat.rect.y += diff
-                player.score += diff
+                    plat.rect.y += scroll_amt
 
-            # Generate new platforms
-            last_plat = min(platforms, key=lambda p: p.rect.y)
-            if last_plat.rect.y > PLATFORM_GAP:
-                new_p = Platform(random.randint(0, WIDTH - 70), last_plat.rect.y - PLATFORM_GAP, 70)
+            # Generate new platforms as we climb
+            highest_plat = min(platforms, key=lambda p: p.rect.y)
+            if highest_plat.rect.y > 0:
+                new_p = Platform(random.randint(0, WIDTH - 70), highest_plat.rect.y - PLATFORM_GAP, 70)
                 all_sprites.add(new_p)
                 platforms.add(new_p)
 
-            # Delete off-screen platforms
+            # Cleanup old platforms
             for plat in platforms:
-                if plat.rect.top > HEIGHT:
+                if plat.rect.top > HEIGHT + 100:
                     plat.kill()
 
-            # Game Over check
+            # Check Loss Conditions
             if player.rect.top >= water_y or player.rect.top > HEIGHT:
                 game_over = True
 
-        # Drawing
+        # Rendering
         screen.fill(SKY_BLUE)
         all_sprites.draw(screen)
 
-        # Draw Water (with transparency)
+        # Draw Translucent Water
         water_surface = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
-        pygame.draw.rect(water_surface, WATER_COLOR, (0, water_y, WIDTH, HEIGHT))
+        # Ensure water_y doesn't go negative or break rect drawing
+        draw_y = max(0, min(HEIGHT, water_y))
+        pygame.draw.rect(water_surface, WATER_COLOR, (0, draw_y, WIDTH, HEIGHT - draw_y))
         screen.blit(water_surface, (0, 0))
 
-        # Score UI
-        score_text = font.render(f"Score: {int(player.score)}", True, BLACK)
+        # UI
+        score_text = font.render(f"Altitude: {int(player.score // 10)}m", True, BLACK)
         screen.blit(score_text, (10, 10))
 
         if game_over:
-            over_text = font.render("GAME OVER! Press any key.", True, BLACK)
-            screen.blit(over_text, (WIDTH // 2 - 120, HEIGHT // 2))
+            msg = font.render("DROWNED! Press any key to retry", True, BLACK)
+            screen.blit(msg, (WIDTH // 2 - 140, HEIGHT // 2))
 
         pygame.display.flip()
         clock.tick(FPS)
