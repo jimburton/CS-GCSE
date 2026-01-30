@@ -4,7 +4,6 @@ with pixel-perfect mask collision detection.
 """
 import pygame
 import os
-import random
 
 pygame.init()
 
@@ -20,16 +19,12 @@ clock = pygame.time.Clock()
 
 
 def redraw_window():
-    large_font = pygame.font.SysFont('comicsans', 30)
     win.blit(bg, (bg_x, 0))
     win.blit(bg, (bg_x2, 0))
-    text = large_font.render('Score: ' + str(score), 1, (255, 255, 255))
-    
-    win.blit(text, (700, 10))
     pygame.display.update()
 
 # Game Setup
-EVENT_BG = pygame.USEREVENT + 1
+EVENT_BG = pygame.event.custom_type()
 pygame.time.set_timer(EVENT_BG, 500)
 
 speed = 30
@@ -43,9 +38,8 @@ while run:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            run = False
-            
-        if event.type == EVENT_BG:
+            run = False            
+        elif event.type == EVENT_BG:
             speed += 1
             
     # Background scrolling

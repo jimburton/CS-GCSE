@@ -4,7 +4,6 @@ with pixel-perfect mask collision detection.
 """
 import pygame
 import os
-import random
 
 pygame.init()
 
@@ -20,40 +19,34 @@ clock = pygame.time.Clock()
 
 
 def redraw_window():
-    large_font = pygame.font.SysFont('comicsans', 30)
     win.blit(bg, (bg_x, 0))
     win.blit(bg, (bg_x2, 0))
-    text = large_font.render('Score: ' + str(score), 1, (255, 255, 255))
     runner.draw(win)
-    win.blit(text, (700, 10))
+
     pygame.display.update()
 
 # Game Setup
-EVENT_BG = pygame.USEREVENT + 1
+EVENT_BG = pygame.event.custom_type()
 pygame.time.set_timer(EVENT_BG, 500)
 
 class Player(pygame.sprite.Sprite):
-    run = [pygame.image.load(os.path.join('images', str(x) + '.png')) for x in range(8,16)]
-    jump = [pygame.image.load(os.path.join('images', str(x) + '.png')) for x in range(1,8)]
-    slide = [pygame.image.load(os.path.join('images', 'S1.png')),
-             pygame.image.load(os.path.join('images', 'S2.png')),
-             pygame.image.load(os.path.join('images', 'S2.png')),
-             pygame.image.load(os.path.join('images', 'S2.png')),
-             pygame.image.load(os.path.join('images', 'S2.png')),
-             pygame.image.load(os.path.join('images', 'S2.png')),
-             pygame.image.load(os.path.join('images', 'S2.png')),
-             pygame.image.load(os.path.join('images', 'S2.png')),
-             pygame.image.load(os.path.join('images', 'S3.png')),
-             pygame.image.load(os.path.join('images', 'S4.png')),
-             pygame.image.load(os.path.join('images', 'S5.png'))]
-    fall = pygame.image.load(os.path.join('images','0.png'))
-    jumpList = [1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,
+    # Resource loading
+    run = [pygame.image.load(os.path.join('images', str(x) + '.png')) for x in range(8, 16)]
+    jump = [pygame.image.load(os.path.join('images', str(x) + '.png')) for x in range(1, 8)]
+    slide = [pygame.image.load(os.path.join('images', 'S1.png'))] + \
+        [pygame.image.load(os.path.join('images', 'S2.png')) for _ in range(7)] + \
+        [pygame.image.load(os.path.join('images', 'S3.png')),
+         pygame.image.load(os.path.join('images', 'S4.png')),
+         pygame.image.load(os.path.join('images', 'S5.png'))]
+    fall = pygame.image.load(os.path.join('images', '0.png'))
+    jump_list = [1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,
                 3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,
                 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,-1,-1,
                 -1,-1,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-3,-3,-3,
                 -3,-3,-3,-3,-3,-3,-3,-3,-3,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4,-4]
 
     def __init__(self):
+        super().__init__() # Initialize the Sprite class
         self.x = 200
         self.y = 313
         self.width = 64
@@ -61,52 +54,58 @@ class Player(pygame.sprite.Sprite):
         self.jumping = False
         self.sliding = False
         self.falling = False
-        self.slideCount = 0
-        self.jumpCount = 0
-        self.runCount = 0
-        self.slideUp = False
+        self.slide_count = 0
+        self.jump_count = 0
+        self.run_count = 0
+        self.slide_up = False
+        
+        # Initialize image, rect, and mask for collide_mask
+        self.image = self.run[0]
+        self.rect = self.image.get_rect(topleft=(self.x, self.y))
+        self.mask = pygame.mask.from_surface(self.image)
 
     def draw(self, win):
         if self.falling:
-            win.blit(self.fall, (self.x, self.y + 30))
-
+            self.image = self.fall
+            current_y = self.y + 30
         elif self.jumping:
-            self.y -= self.jumpList[self.jumpCount] * 1.3
-            win.blit(self.jump[self.jumpCount//18], (self.x, self.y))
-            self.jumpCount += 1
-            if self.jumpCount > 108:
-                self.jumpCount = 0
+            self.y -= self.jump_list[self.jump_count] * 1.3
+            self.image = self.jump[self.jump_count // 18]
+            self.jump_count += 1
+            if self.jump_count > 108:
+                self.jump_count = 0
                 self.jumping = False
-                self.runCount = 0
-            self.hitbox = (self.x+4, self.y, self.width-24, self.height-10)
-        elif self.sliding or self.slideUp:
-            if self.slideCount < 20:
+                self.run_count = 0
+            current_y = self.y
+        elif self.sliding or self.slide_up:
+            if self.slide_count < 20:
                 self.y += 1
-                self.hitbox = (self.x+4, self.y, self.width-24, self.height-10)
-            elif self.slideCount == 80:
+            elif self.slide_count == 80:
                 self.y -= 19
                 self.sliding = False
-                self.slideUp = True
-            elif self.slideCount > 20 and self.slideCount < 80:
-                self.hitbox = (self.x, self.y+3, self.width-8, self.height-35)
+                self.slide_up = True
 
-            if self.slideCount >= 110:
-                self.slideCount = 0
-                self.runCount = 0
-                self.slideUp = False
-                self.hitbox = (self.x+4, self.y, self.width-24, self.height-10)
-            win.blit(self.slide[self.slideCount//10], (self.x, self.y))
-            self.slideCount += 1
-
+            if self.slide_count >= 110:
+                self.slide_count = 0
+                self.run_count = 0
+                self.slide_up = False
+            
+            self.image = self.slide[self.slide_count // 10]
+            current_y = self.y
+            self.slide_count += 1
         else:
-            if self.runCount > 42:
-                self.runCount = 0
-            win.blit(self.run[self.runCount//6], (self.x, self.y))
-            self.runCount += 1
-            self.hitbox = (self.x+4, self.y, self.width-24, self.height-13)
+            if self.run_count > 42:
+                self.run_count = 0
+            self.image = self.run[self.run_count // 6]
+            self.run_count += 1
+            current_y = self.y
+
+        # Update the rect and mask based on the current animation frame and position
+        self.rect.topleft = (self.x, current_y)
+        self.mask = pygame.mask.from_surface(self.image)
+        win.blit(self.image, self.rect)
             
 speed = 30
-score = 0
 run = True
 runner = Player()
 
