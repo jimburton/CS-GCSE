@@ -44,8 +44,10 @@ class Player(pygame.sprite.Sprite):
 
         # Horizontal movement and boundaries
         self.rect.x += dx
-        if self.rect.left < 0: self.rect.left = 0
-        if self.rect.right > WIDTH: self.rect.right = WIDTH
+        if self.rect.left < 0:
+            self.rect.left = 0
+        if self.rect.right > WIDTH:
+            self.rect.right = WIDTH
 
         # Vertical movement and platform collision
         # We check collision BEFORE applying vertical movement to catch the landing
@@ -156,7 +158,7 @@ def main():
             msg = font.render("DROWNED! Press any key to retry", True, BLACK)
             screen.blit(msg, (WIDTH // 2 - 140, HEIGHT // 2))
 
-        pygame.display.flip()
+        pygame.display.update()
         clock.tick(FPS)
 
     pygame.quit()
