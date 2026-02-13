@@ -20,8 +20,11 @@ BLOCK_MOTION = 5
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-DISPLAYSURF = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+win = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Simple demo")
+
+FONT_START_SCREEN = pygame.font.SysFont("Comic Sans Ms", 50)
+LABEL_START = FONT_START_SCREEN.render("Enter 1 or 2 for a one or two player game", True, WHITE)
 
 class Block(pygame.sprite.Sprite):
     def __init__(self):
@@ -47,9 +50,10 @@ class Block(pygame.sprite.Sprite):
         self.rect.move_ip(BLOCK_MOTION * self.x_dir, BLOCK_MOTION * self.y_dir)
 
 class Bat(pygame.sprite.Sprite):
-    def __init__(self, player=False):
+    def __init__(self, player=False, two_player=False):
         super().__init__()
         self.player = player
+        self.two_player = two_player
         # Draw a white bat
         self.image = pygame.Surface((50, 200))
         self.image.fill(WHITE)
@@ -68,6 +72,14 @@ class Bat(pygame.sprite.Sprite):
                     self.rect.move_ip(0, -5)
             if self.rect.bottom < SCREEN_HEIGHT:        
                 if pressed_keys[pl.K_DOWN]:
+                    self.rect.move_ip(0, 5)
+        elif self.two_player:
+            pressed_keys = pygame.key.get_pressed()
+            if self.rect.top > 0:
+                if pressed_keys[pl.K_w]:
+                    self.rect.move_ip(0, -5)
+            if self.rect.bottom < SCREEN_HEIGHT:        
+                if pressed_keys[pl.K_s]:
                     self.rect.move_ip(0, 5)
         else:
             self.follow(block_y)
@@ -89,22 +101,44 @@ bat1 = Bat(player=True)
 bat2 = Bat(player=False)
 
 # --- Main Game Loop ---
-while True:     
-    for event in pygame.event.get():               
-        if event.type == pl.QUIT:
-            pygame.quit()
-            sys.exit()
+def game_loop():
+    while True:     
+        for event in pygame.event.get():               
+            if event.type == pl.QUIT:
+                pygame.quit()
+                sys.exit()
+            
+        # Update logic
+        bat1.update()
+        bat2.update(block.rect.centery)
+        block.update()
     
-    # Update logic
-    bat1.update()
-    bat2.update(block.rect.centery)
-    block.update()
-     
-    # Drawing
-    DISPLAYSURF.fill(BLACK)
-    block.draw(DISPLAYSURF)
-    bat1.draw(DISPLAYSURF)
-    bat2.draw(DISPLAYSURF)
+        # Drawing
+        win.fill(BLACK)
+        block.draw(win)
+        bat1.draw(win)
+        bat2.draw(win)
 
-    pygame.display.update()
-    FramePerSec.tick(FPS)
+        pygame.display.update()
+        FramePerSec.tick(FPS)
+
+def start_screen():
+    global bat2
+    while True:     
+        for event in pygame.event.get():               
+            if event.type == pl.KEYDOWN and event.key == pl.K_1:
+                bat2 = Bat(player=False, two_player=False)
+                game_loop()
+            elif event.type == pl.KEYDOWN and event.key == pl.K_2:
+                bat2 = Bat(player=False, two_player=True)
+                game_loop()
+            
+        # Drawing
+        win.fill(BLACK)
+        win.blit(LABEL_START, (100,100))
+
+        pygame.display.update()
+        FramePerSec.tick(FPS)
+
+if __name__ == '__main__':
+    start_screen()

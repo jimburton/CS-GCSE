@@ -31,14 +31,14 @@ pygame.time.set_timer(EVENT_BG, 500)
 
 class Player(pygame.sprite.Sprite):
     # Resource loading
-    run = [pygame.image.load(os.path.join('images', str(x) + '.png')) for x in range(8, 16)]
-    jump = [pygame.image.load(os.path.join('images', str(x) + '.png')) for x in range(1, 8)]
-    slide = [pygame.image.load(os.path.join('images', 'S1.png'))] + \
-        [pygame.image.load(os.path.join('images', 'S2.png')) for _ in range(7)] + \
-        [pygame.image.load(os.path.join('images', 'S3.png')),
-         pygame.image.load(os.path.join('images', 'S4.png')),
-         pygame.image.load(os.path.join('images', 'S5.png'))]
-    fall = pygame.image.load(os.path.join('images', '0.png'))
+    run = [pygame.image.load(os.path.join('images', 'run_' + str(x) + '.png')) for x in range(8)]
+    jump = [pygame.image.load(os.path.join('images', 'jump_' + str(x) + '.png')) for x in range(8)]
+    slide = [pygame.image.load(os.path.join('images', 'slide_0.png'))] + \
+        [pygame.image.load(os.path.join('images', 'slide_1.png')) for _ in range(7)] + \
+        [pygame.image.load(os.path.join('images', 'slide_2.png')),
+         pygame.image.load(os.path.join('images', 'slide_3.png')),
+         pygame.image.load(os.path.join('images', 'slide_4.png'))]
+    fall = pygame.image.load(os.path.join('images', 'fall.png'))
     jump_list = [1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,
                 3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,
                 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,-1,-1,-1,
@@ -94,9 +94,9 @@ class Player(pygame.sprite.Sprite):
             current_y = self.y
             self.slide_count += 1
         else:
-            if self.run_count > 42:
+            if self.run_count > 40:
                 self.run_count = 0
-            self.image = self.run[self.run_count // 6]
+            self.image = self.run[self.run_count // 8]
             self.run_count += 1
             current_y = self.y
 
