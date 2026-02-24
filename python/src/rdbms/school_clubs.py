@@ -3,23 +3,55 @@ import sqlite3
 con = sqlite3.connect("school_clubs.db")
 cur = con.cursor()
 
-def setup_db():
-    cur.execute("""CREATE TABLE Students(student_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                   student_name TEXT)""")
-    cur.execute("""CREATE TABLE Rooms(room_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                   room_name TEXT,
-                   capacity INTEGER)""")
-    cur.execute("""CREATE TABLE Clubs(club_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                   club_name TEXT,
-                   leader_id INTEGER,
-                   room_id INTEGER,
-                   FOREIGN KEY(room_id) REFERENCES Rooms(room_id)
-                   FOREIGN KEY(leader_id) REFERENCES Students(student_id))""")
-    cur.execute("""CREATE TABLE School_Clubs(sc_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                   student_id INTEGER,
-                   club_id INTEGER,
-                   FOREIGN KEY(student_id) REFERENCES Students(student_id),
-                   FOREIGN KEY(club_id) REFERENCES Clubs(club_id))""")
+def get_students_by_club(club_name):
+    """Get the name of all students in the  given club."""
+    cur.execute("""SELECT student_name
+                   FROM Students s, Clubs c, Memberships m
+                   WHERE s.student_id = m.student_id
+                   AND c.club_id = m.club_id
+                   AND c.club_name = ?;""", (club_name,))
+    return cur.fetchall()
 
-if __name__ == '__main__':
-    setup_db()
+def get_all_students():
+    """List all student names in alphabetical order."""
+    pass
+
+def get_large_rooms():
+    """Find the name and capacity of all rooms that can hold more than 25 people."""
+    pass
+
+def get_coding_club():
+    """Find the id and name of the club named 'Coding Club'."""
+    pass
+
+def get_clubs_and_rooms():
+    """Display a list of all club names and the rooms they meet in."""
+    pass
+
+def get_clubs_and_leaders():
+    """List every club name alongside the name of the student who leads it."""
+    pass
+
+def get_art_club_members():
+    """List all students who are members of the "Art Club". (Requires joining students, school_clubs, and clubs)."""
+    pass
+
+def add_miles():
+    """Insert a new student named 'Miles Morales'. Make them into a member of the
+    Coding Club."""
+    pass
+
+def move_drama():
+    """The Drama Club is moving to Room 402. Update the clubs table to reflect this."""
+    pass
+
+def move_club(club_name, room_name):
+    """Move the given club to the given room."""
+    pass
+
+def remove():
+    """Alice Smith (ID: 1) has graduated. Remove her student record. Note that you
+    must remove her memberships before doing this. WHY IS THAT?"""
+    pass
+
+
