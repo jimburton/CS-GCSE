@@ -1,0 +1,37 @@
+type,name,extra1,extra2
+room,Room 402,30,
+room,Art Studio,20,
+room,The Gym,100,
+student,Alice Smith,,
+student,Bob Jones,,
+student,Charlie Brown,,
+student,Daisy Miller,,
+student,Ethan Hunt,,
+student,Fiona Glenanne,,
+student,George Garcia,,
+student,Hannah Abbott,,
+student,Ian Wright,,
+student,Jenny Slate,,
+student,Kevin Hart,,
+student,Laura Croft,,
+club,Coding Club,1,1
+club,Art Club,6,2
+club,Chess Club,8,1
+club,Basketball,4,3
+club,Drama Club,10,2
+membership,1,1,
+membership,1,2,
+membership,2,1,
+membership,3,3,
+membership,4,4,
+membership,5,5,
+membership,6,2,
+membership,7,1,
+membership,7,2,
+membership,7,3,
+membership,8,4,
+membership,8,5,
+membership,9,1,
+membership,9,5,
+membership,10,2,
+membership,10,3,
