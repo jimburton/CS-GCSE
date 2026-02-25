@@ -6,10 +6,10 @@ cur = con.cursor()
 def get_students_by_club(club_name):
     """Get the name of all students in the  given club."""
     cur.execute("""SELECT student_name
-                   FROM Students s, Clubs c, Memberships m
-                   WHERE s.student_id = m.student_id
-                   AND c.club_id = m.club_id
-                   AND c.club_name = ?;""", (club_name,))
+                   FROM Students s
+                   INNER JOIN Memberships m USING (student_id)
+                   INNER JOIN Clubs c
+                   WHERE c.club_name = ?;""", (club_name,))
     return cur.fetchall()
 
 def get_all_students():

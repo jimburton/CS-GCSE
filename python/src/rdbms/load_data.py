@@ -78,7 +78,7 @@ def load_data(db_name, csv_file):
         
         # Simple verification query
         cur.execute("""
-            SELECT s.student_name, COUNT(sc.club_id) 
+            SELECT s.student_name, COUNT(m.club_id) 
             FROM Students s 
             LEFT JOIN Memberships m ON s.student_id = m.student_id 
             GROUP BY s.student_id
