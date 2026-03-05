@@ -31,8 +31,8 @@ pygame.time.set_timer(EVENT_BG, 500)
 
 class Player(pygame.sprite.Sprite):
     # Resource loading
-    run = [pygame.image.load(os.path.join('images', 'run_' + str(x) + '.png')) for x in range(8)]
-    jump = [pygame.image.load(os.path.join('images', 'jump_' + str(x) + '.png')) for x in range(8)]
+    run = [pygame.image.load(os.path.join('images', str(x) + '.png')) for x in range(8)]
+    jump = [pygame.image.load(os.path.join('images', str(x) + '.png')) for x in range(8)]
     slide = [pygame.image.load(os.path.join('images', 'slide_0.png'))] + \
         [pygame.image.load(os.path.join('images', 'slide_1.png')) for _ in range(7)] + \
         [pygame.image.load(os.path.join('images', 'slide_2.png')),
