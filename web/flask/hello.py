@@ -4,10 +4,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return "<p>Hello, World! <a href='/games'>View the games.</a></p>"
 
-if __name__ == '__main__':
-    # CRITICAL FOR IDLE: 
-    # 1. use_reloader=False prevents IDLE from crashing/hanging.
-    # 2. debug=True still allows you to see errors in the browser.
-    app.run(debug=True, use_reloader=False, port=5000)
+@app.route("/games")
+def games():
+    return "<p>Here's where the games will be listed...</p>"
